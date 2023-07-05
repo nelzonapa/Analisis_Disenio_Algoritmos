@@ -1,21 +1,25 @@
+
 #include <iostream>
 #include <vector>
+
+/*Implementación del Quick Sort*/
+using namespace std;
 
 // Función para intercambiar dos elementos
 void swap(int& a, int& b)
 {
-    int temp = a;
-    a = b;
-    b = temp;
+    int temp=a;
+    a=b;
+    b=temp;
 }
 
 // Función para colocar el pivote en la posición correcta y dividir el arreglo en dos subarreglos
-int partition(std::vector<int>& arr, int low, int high)
+int partition(vector<int>& arr, int low, int high)
 {
-    int pivot = arr[high]; // seleccionamos el último elemento como pivote
-    int i = (low - 1); // índice del elemento más pequeño
+    int pivot=arr[high]; // seleccionamos el último elemento como pivote
+    int i=(low - 1); // índice del elemento más pequeño
 
-    for (int j = low; j <= high - 1; j++)
+    for (int j=low; j <= high - 1; j++)
     {
         if (arr[j] < pivot)
         {
@@ -29,12 +33,12 @@ int partition(std::vector<int>& arr, int low, int high)
 }
 
 // Función recursiva para aplicar Quick Sort en un arreglo
-void quickSort(std::vector<int>& arr, int low, int high)
+void quickSort(vector<int>& arr, int low, int high)
 {
     if (low < high)
     {
         // Obtener la posición del pivote
-        int pi = partition(arr, low, high);
+        int pi=partition(arr, low, high);
 
         // Ordenar los elementos antes y después del pivote
         quickSort(arr, low, pi - 1);
@@ -43,27 +47,23 @@ void quickSort(std::vector<int>& arr, int low, int high)
 }
 
 // Función para imprimir el arreglo
-void printArray(const std::vector<int>& arr)
+void printArray(const vector<int>& arr)
 {
-    for (int i = 0; i < arr.size(); i++)
+    for (int i=0; i < arr.size(); i++)
     {
-        std::cout << arr[i] << " ";
+        cout<<arr[i]<<" ";
     }
-    std::cout << std::endl;
+    cout<<endl;
 }
 
 int main()
 {
-    std::vector<int> arr = { 64, 25, 12, 22, 11 };
-    int n = arr.size();
-
-    std::cout << "Arreglo original: ";
+    vector<int> arr={ 64, 25, 12, 22, 11 };
+    int n=arr.size();
+    cout<<"Arreglo original: ";
     printArray(arr);
-
     quickSort(arr, 0, n - 1);
-
-    std::cout << "Arreglo ordenado: ";
+    cout<<"Arreglo ordenado: ";
     printArray(arr);
-
     return 0;
 }

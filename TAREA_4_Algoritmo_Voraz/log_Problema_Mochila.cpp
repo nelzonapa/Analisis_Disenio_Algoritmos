@@ -1,56 +1,50 @@
+/* LOGARITMO MOCHILA EJEMPLO*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
-struct Item {
-    int weight;
-    int value;
+using namespace std;
+
+struct Objeto {
+    int peso;
+    int valor;
 };
 
-bool compareItems(const Item& item1, const Item& item2) {
-    // Comparar los elementos según la relación valor/peso de forma descendente
-    double valuePerWeight1 = static_cast<double>(item1.value) / item1.weight;
-    double valuePerWeight2 = static_cast<double>(item2.value) / item2.weight;
-    return valuePerWeight1 > valuePerWeight2;
+bool compararObjetos( Objeto& objeto1,  Objeto& objeto2) {
+    // Comparar los objetos según la relación valor/peso de forma descendente
+    double valorPorPeso1 = static_cast<double>(objeto1.valor) / objeto1.peso;
+    double valorPorPeso2 = static_cast<double>(objeto2.valor) / objeto2.peso;
+    return valorPorPeso1 > valorPorPeso2;
 }
 
-double knapsackGreedy(const std::vector<Item>& items, int capacity) {
-    std::vector<Item> sortedItems = items;
-    std::sort(sortedItems.begin(), sortedItems.end(), compareItems);
+double mochilaVoraz( vector<Objeto>& objetos, int capacidad) {
+    vector<Objeto> objetosOrdenados = objetos;
+    sort(objetosOrdenados.begin(), objetosOrdenados.end(), compararObjetos);
 
-    double totalValue = 0.0;
-    int currentCapacity = capacity;
+    double valorTotal = 0.0;
+    int capacidadActual = capacidad;
 
-    for (const Item& item : sortedItems) {
-        if (currentCapacity >= item.weight) {
+    for ( Objeto& objeto : objetosOrdenados) {
+        if (capacidadActual >= objeto.peso) {
             // Se puede añadir el objeto completo a la mochila
-            totalValue += item.value;
-            currentCapacity -= item.weight;
+            valorTotal += objeto.valor;
+            capacidadActual -= objeto.peso;
         } else {
             // Solo se añade una fracción del objeto a la mochila para aprovechar el espacio disponible
-            double fraction = static_cast<double>(currentCapacity) / item.weight;
-            totalValue += fraction * item.value;
+            double fraccion = static_cast<double>(capacidadActual) / objeto.peso;
+            valorTotal += fraccion * objeto.valor;
             break;
         }
     }
 
-    return totalValue;
+    return valorTotal;
 }
 
 int main() {
-    std::vector<Item> items = {
-        {2, 10},
-        {5, 25},
-        {10, 40},
-        {3, 12},
-        {7, 30}
-    };
-
-    int capacity = 15;
-
-    double maxValue = knapsackGreedy(items, capacity);
-
-    std::cout << "Valor máximo obtenido: " << maxValue << std::endl;
+    vector<Objeto> objetos = {{2, 10},{5, 25},{10, 40},{3, 12},{7, 30}};
+    int capacidad = 15;
+    double valorMaximo = mochilaVoraz(objetos, capacidad);
+    cout<<"Valor maximo obtenido: "<<valorMaximo<<endl;
 
     return 0;
 }

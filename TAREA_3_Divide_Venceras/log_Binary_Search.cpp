@@ -1,26 +1,27 @@
 #include <iostream>
 #include <vector>
+/*Implementación posible de Bynary_Search*/
+using namespace std;
 
-int binarySearch(const std::vector<int>& arr, int target)
+int Busqueda_Binaria(vector<int>& array, int a_buscar)
 {
-    int left = 0;
-    int right = arr.size() - 1;
-
-    while (left <= right)
+    int izq=0;
+    int dere=array.size()-1;
+    while (izq <= dere)
     {
-        int mid = left + (right - left) / 2;
+        int mid=izq +(dere-izq) / 2;
 
-        if (arr[mid] == target)
+        if (array[mid] == a_buscar)
         {
             return mid;
         }
-        else if (arr[mid] < target)
+        else if (array[mid] < a_buscar)
         {
-            left = mid + 1;
+            izq=mid + 1;
         }
         else
         {
-            right = mid - 1;
+            dere=mid - 1;
         }
     }
 
@@ -29,18 +30,16 @@ int binarySearch(const std::vector<int>& arr, int target)
 
 int main()
 {
-    std::vector<int> arr = {1, 3, 5, 7, 9, 11, 13, 15};
-    int target = 7;
-
-    int index = binarySearch(arr, target);
-
-    if (index != -1)
+    vector<int> array={1, 3, 5, 7, 9, 11, 13, 15};
+    int a_buscar=7;
+    int aux=Busqueda_Binaria(array, a_buscar);
+    if (aux != -1)
     {
-        std::cout << "El elemento " << target << " se encuentra en el índice " << index << std::endl;
+        cout<<"El elemento "<<a_buscar<<" se encuentra en el indice "<<aux<<endl;
     }
     else
     {
-        std::cout << "El elemento " << target << " no se encuentra en el arreglo." << std::endl;
+        cout<<"El elemento "<<a_buscar<<" no se encuentra en el array."<<endl;
     }
 
     return 0;

@@ -1,50 +1,58 @@
+/*LOGARITMO PLANIFICACIÓN DE TAREAS CON EJEMPLO*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
-struct Task {
+using namespace std;
+
+//Usamos un struct
+struct Tarea {
     int id;
-    int deadline;
-    int duration;
+    int plazoLimite;
+    int duracion;
 };
 
-bool compareTasks(const Task& task1, const Task& task2) {
-    return task1.deadline < task2.deadline;
+bool compararTareas(Tarea& tarea1, Tarea& tarea2) {
+    return tarea1.plazoLimite < tarea2.plazoLimite;
 }
 
-std::vector<int> scheduleTasks(std::vector<Task>& tasks) {
-    std::sort(tasks.begin(), tasks.end(), compareTasks);
+vector<int> planificarTareas(vector<Tarea>& tareas) {
+    sort(tareas.begin(), tareas.end(), compararTareas);
 
-    int n = tasks.size();
-    std::vector<int> schedule(n, -1);  // Vector para almacenar el orden de ejecución de las tareas
-    std::vector<bool> slot(n, false);  // Vector para controlar los slots de tiempo ocupados
+    int n = tareas.size();
+    vector<int> planificacion(n,-1);  // Vector para almacenar el orden de ejecución de las tareas
+    vector<bool> slot(n, false);  // Vector para controlar los slots de tiempo ocupados
 
     for (int i = 0; i < n; i++) {
-        for (int j = std::min(n, tasks[i].deadline) - 1; j >= 0; j--) {
+        int j = min(n, tareas[i].plazoLimite) - 1;
+        while (j >= 0) {
             if (!slot[j]) {
-                schedule[j] = tasks[i].id;
+                planificacion[j] = tareas[i].id;
                 slot[j] = true;
                 break;
             }
+            j--;
         }
     }
 
-    return schedule;
+    return planificacion;
 }
 
-void printSchedule(const std::vector<int>& schedule) {
-    std::cout << "Orden de ejecución de las tareas: ";
-    for (int task : schedule) {
-        std::cout << task << " ";
+void imprimirPlanificacion(vector<int>& planificacion) {
+    cout<<"Orden de ejecución de las tareas: ";
+    for (int i = 0; i < planificacion.size(); i++) {
+        if (planificacion[i] != -1) {
+            cout<<planificacion[i]<<" ";
+        }
     }
-    std::cout << std::endl;
+    cout<<endl;
 }
 
 int main() {
-    std::vector<Task> tasks = { {1, 5, 2}, {2, 2, 1}, {3, 4, 3}, {4, 3, 2}, {5, 7, 1} };
-
-    std::vector<int> schedule = scheduleTasks(tasks);
-    printSchedule(schedule);
+    //Como ejemplo
+    vector<Tarea> tareas = { {1, 5, 2}, {2, 2, 1}, {3, 4, 3}, {4, 3, 2}, {5, 7, 1} };
+    vector<int> planificacion = planificarTareas(tareas);
+    imprimirPlanificacion(planificacion);
 
     return 0;
 }
